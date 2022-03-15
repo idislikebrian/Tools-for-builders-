@@ -58,7 +58,7 @@ contract Tools is ERC721Enumerable, ReentrancyGuard, Ownable {
         "Combination Electricians 6-in-1 Wire Strippers"
     ];
     
-    string[] private screwdriver = [
+    string[] private screwdriver = [ /// add paintbruch here and change to 'handtool?'
         "1/4 in. Flip-Blade Insulated Screwdriver",
         "9-in-1 Square Drive Ratcheting Multi-Bit Screwdriver",
         "7-Piece Assorted Screwdriver Set",
@@ -199,25 +199,7 @@ contract Tools is ERC721Enumerable, ReentrancyGuard, Ownable {
     function getPliers(uint256 tokenId) public view returns (string memory) {
         return pluck(tokenId, "PLIERS", pliers);
     }
-    /////////////////////////////////////
-   function checkStringlen(string memory str,uint len) public pure returns (bool){
-       
-       if(bytes(str).length>len) return true;
-       else return false;
-   }
-    
-   function sliceString(string calldata str) public pure returns(string memory strPart1, string memory strPart2){
-      if(checkStringlen(str,58)){
-        bytes calldata temp=bytes(str);
-        bytes calldata part1= temp[:58];
-        strPart1 = string(part1);
-        bytes calldata part2= temp[58:];
-        strPart2 = string(part2);
-      }
-      else
-      strPart1=str;
-   } 
-    ///////////////////////////////////////
+
     function pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory) {
         uint256 rand = random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
         string memory output = sourceArray[rand % sourceArray.length];
@@ -238,6 +220,23 @@ contract Tools is ERC721Enumerable, ReentrancyGuard, Ownable {
         return output;
     }
 
+    function checkStringlen(string memory str,uint len) public pure returns (bool){
+        
+        if(bytes(str).length>len) return true;
+        else return false;
+    }
+        
+    function sliceString(string calldata str) public pure returns(string memory strPart1, string memory strPart2){
+        if(checkStringlen(str,58)){
+            bytes calldata temp=bytes(str);
+            bytes calldata part1= temp[:58];
+            strPart1 = string(part1);
+            bytes calldata part2= temp[58:];
+            strPart2 = string(part2);
+        }
+        else
+        strPart1=str;
+    } 
     function tokenURI(uint256 tokenId) override public view returns (string memory) {
         string[17] memory parts;
         parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: black; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="white" /><text x="10" y="20" class="base">';
